@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}MusicXML2PIG{% endblock %}
+{% block content %}
+<section class="intro">
+    <div>
+        <p class="eyebrow">PIG dataset preparation</p>
+        <h1>Convert MusicXML fingerings and verify them visually.</h1>
+    </div>
+    <p class="intro-copy">Upload a MuseScore MusicXML export to create PIG TXT files, validation reports, and an embedded piano roll. Or upload an existing PIG TXT file just to inspect it.</p>
+</section>
+
+{% if error %}
+<div class="alert">{{ error }}</div>
+{% endif %}
+
+<section class="format-note" aria-labelledby="pig-format-title">
+    <div>
+        <p class="eyebrow">Output format</p>
+        <h2 id="pig-format-title">PIG TXT stores one note per line.</h2>
+    </div>
+    <div class="format-copy">
+        <p>This version writes the eight-column PIG fingering format:</p>
+        <code>note_id onset_time offset_time spelled_pitch onset_velocity offset_velocity channel finger_number</code>
+        <p>The velocity columns are required by the format. MuseScore MusicXML usually does not include real per-note performance velocities, so this tool uses neutral defaults unless better data is available later.</p>
+        <p class="reference-link">Reference: <a href="https://beam.kisarazu.ac.jp/~saito/research/PianoFingeringDataset/" target="_blank" rel="noopener noreferrer">PIG Dataset website</a></p>
+    </div>
+</section>
+
+<section class="tool-grid">
+    <form class="tool-panel" action="{{ url_for('convert_musicxml') }}" method="post" enctype="multipart/form-data">
+        <div class="panel-heading">
+            <span class="panel-number">01</span>
+            <div>
+                <h2>MusicXML to PIG + verifier</h2>
+                <p>Creates PIG TXT, validation report, and piano-roll HTML.</p>
+            </div>
+        </div>
+
+        <label class="field">
+            <span>MusicXML file</span>
+            <input type="file" name="musicxml_file" accept=".musicxml,.xml" required>
+        </label>
+
+        <details class="advanced-options">
+            <summary>Advanced defaults</summary>
+            <div class="advanced-body">
+                <p class="advanced-copy">Most MuseScore exports can use these as-is. They are only used when the MusicXML does not provide enough information, or when you intentionally want to override the file.</p>
+
+                <div class="field-row">
+                    <label class="field">
+                        <span>Tempo override</span>
+                        <input type="number" step="0.01" min="1" name="tempo" placeholder="Auto-detect">
+                        <small class="field-hint">Leave blank to read the first tempo from the MusicXML.</small>
+                    </label>
+                    <label class="field">
+                        <span>Fallback tempo</span>
+                        <input type="number" step="0.01" min="1" name="fallback_tempo" value="120">
+                        <small class="field-hint">Used only if no readable MusicXML tempo is found.</small>
+                    </label>
+                </div>
+
+                <div class="field-row">
+                    <label class="field">
+                        <span>Default onset velocity</span>
+                        <input type="number" min="0" max="127" name="default_on_velocity" value="64">
+                        <small class="field-hint">PIG requires this field; MuseScore MusicXML usually does not include real per-note performance velocities.</small>
+                    </label>
+                    <label class="field">
+                        <span>Default offset velocity</span>
+                        <input type="number" min="0" max="127" name="default_off_velocity" value="64">
+                        <small class="field-hint">Written as a neutral MIDI-like value when no release velocity exists.</small>
+                    </label>
+                </div>
+
+                <label class="field">
+                    <span>Missing fingering</span>
+                    <select name="missing_fingering">
+                        <option value="skip">Skip note</option>
+                        <option value="zero">Keep note with finger 0</option>
+                    </select>
+                    <small class="field-hint">Skipped notes are still listed in the validation report.</small>
+                </label>
+            </div>
+        </details>
+
+        <label class="check-row">
+            <input type="checkbox" name="midi">
+            <span>Also create MIDI</span>
+        </label>
+
+        <button type="submit">Convert and visualize</button>
+    </form>
+
+    <form class="tool-panel" action="{{ url_for('visualize_pig') }}" method="post" enctype="multipart/form-data">
+        <div class="panel-heading">
+            <span class="panel-number">02</span>
+            <div>
+                <h2>PIG TXT visualizer</h2>
+                <p>Use this when you already have a PIG-compatible TXT file.</p>
+            </div>
+        </div>
+
+        <label class="field">
+            <span>PIG TXT file</span>
+            <input type="file" name="pig_file" accept=".txt" required>
+        </label>
+
+        <label class="check-row">
+            <input type="checkbox" name="midi">
+            <span>Also create MIDI</span>
+        </label>
+
+        <button type="submit">Visualize PIG TXT</button>
+    </form>
+</section>
+{% endblock %}

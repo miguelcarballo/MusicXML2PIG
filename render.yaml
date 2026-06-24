@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: musicxml2pig
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: MAX_UPLOAD_MB
+        value: 20
+      - key: WEB_JOB_RETENTION_HOURS
+        value: 24

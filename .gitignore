@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local/generated outputs
+web_runs/
+output/
+data/output/
+data/pig_txt/
+*.validation.txt
+
+# OS/editor noise
+.DS_Store
+.vscode/
+.idea/
+
+# Environment files
+.env

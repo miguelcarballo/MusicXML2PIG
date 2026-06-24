@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ result.title }}{% endblock %}
+{% block content %}
+<section class="result-header">
+    <div>
+        <p class="eyebrow">Result</p>
+        <h1>{{ result.title }}</h1>
+        <p>{{ result.summary }}</p>
+    </div>
+    <a class="secondary-link" href="{{ url_for('index') }}">Run another file</a>
+</section>
+
+{% if result.warnings %}
+<section class="warning-box">
+    <h2>Warnings</h2>
+    {% for warning in result.warnings %}
+    <p>{{ warning }}</p>
+    {% endfor %}
+</section>
+{% endif %}
+
+<section class="downloads">
+    <h2>Artifacts</h2>
+    <div class="download-grid">
+        {% for artifact in result.artifacts %}
+        <a class="download-card" href="{{ url_for('job_file', job_id=result.job_id, relative_path=artifact.relative_path, download='1') }}">
+            <span>{{ artifact.label }}</span>
+            <small>{{ artifact.relative_path }}</small>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+{% if result.preview_path %}
+<section class="viewer-section">
+    <div class="viewer-heading">
+        <h2>Piano-roll verifier</h2>
+        <a href="{{ url_for('job_file', job_id=result.job_id, relative_path=result.preview_path) }}" target="_blank" rel="noreferrer">Open full page</a>
+    </div>
+    <iframe class="piano-frame" src="{{ url_for('job_file', job_id=result.job_id, relative_path=result.preview_path) }}" title="Piano-roll verifier"></iframe>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+{{ shared_css }}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>{{ title }}</h1>
+
+    {{ metadata_html }}
+
+    <div class="stats" id="stats-container"></div>
+
+    <div class="legend">
+        <strong style="margin-right:10px;">Fingerings:</strong>
+        {{ legend_html }}
+    </div>
+
+    <div class="controls">
+        <button onclick="zoomIn()">Zoom In</button>
+        <button onclick="zoomOut()">Zoom Out</button>
+        <button onclick="resetView()">Reset View</button>
+        <div class="hand-filter">
+            <label><input type="checkbox" id="show-right" checked onchange="drawPianoRoll()"> R</label>
+            <label><input type="checkbox" id="show-left" checked onchange="drawPianoRoll()"> L</label>
+        </div>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="labels-canvas"></canvas>
+        <div id="pianoroll-container">
+            <canvas id="pianoroll"></canvas>
+        </div>
+    </div>
+    <div id="tooltip"></div>
+</div>
+
+<script>
+    const notes           = {{ notes_json }};
+    const fingeringColors = {{ colors_json }};
+    const stats           = {{ stats_json }};
+    const minPitch        = {{ min_pitch }};
+    const maxPitch        = {{ max_pitch }};
+    const maxTime         = {{ max_time }};
+
+    let labelsCanvas = document.getElementById('labels-canvas');
+    let labelsCtx    = labelsCanvas.getContext('2d');
+    let canvas       = document.getElementById('pianoroll');
+    let ctx          = canvas.getContext('2d');
+    let tooltip      = document.getElementById('tooltip');
+
+    {{ utility_js }}
+
+    {{ keyboard_js }}
+
+    {{ piano_roll_js }}
+</script>
+</body>
+</html>
