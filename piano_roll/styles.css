@@ -142,21 +142,23 @@ button.active { background: #2C8C85; }
 #canvas-container {
     position: relative;
     display: flex;
+    overflow: hidden;
     border: 1px solid #ddd;
     border-radius: 5px;
     background: white;
     max-height: 700px;
 }
 
-#labels-canvas {
-    position: sticky;
-    left: 0;
+#labels-container {
+    flex: 0 0 31px;
+    overflow: hidden;
     z-index: 10;
     background: white;
     border-right: 2px solid #ddd;
 }
 
-#pianoroll-container { overflow: auto; flex: 1; }
+#labels-canvas { position: relative; }
+#pianoroll-container { overflow: auto; flex: 1; min-width: 0; }
 canvas { display: block; }
 
 #tooltip {

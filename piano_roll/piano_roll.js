@@ -139,5 +139,10 @@ canvas.addEventListener('mouseleave', () => {
     tooltip.style.display = 'none';
 });
 
+const pianoRollContainer = document.getElementById('pianoroll-container');
+pianoRollContainer.addEventListener('scroll', () => {
+    labelsCanvas.style.transform = `translateY(${-pianoRollContainer.scrollTop}px)`;
+});
+
 renderStats();
 drawPianoRoll();

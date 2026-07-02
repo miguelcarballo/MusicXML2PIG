@@ -39,7 +39,10 @@ class PigVisualizerTest(unittest.TestCase):
             self.assertEqual(len(result.notes), 3)
             self.assertFalse((output_dir / "piece.mid").exists())
             self.assertTrue((output_dir / "piece.html").exists())
-            self.assertIn("PIG Piano Roll", (output_dir / "piece.html").read_text(encoding="utf-8"))
+            html = (output_dir / "piece.html").read_text(encoding="utf-8")
+            self.assertIn("PIG Piano Roll", html)
+            self.assertIn('id="labels-container"', html)
+            self.assertIn("pianoRollContainer.scrollTop", html)
 
 
     def test_midi_writer_uses_internal_seconds_mapping(self) -> None:
