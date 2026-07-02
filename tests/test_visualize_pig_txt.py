@@ -25,6 +25,7 @@ class PigVisualizerTest(unittest.TestCase):
             self.assertEqual(result.notes[1].pitch_midi, 66)
             self.assertEqual(result.notes[1].display_finger, "4_1")
             self.assertEqual(result.notes[2].hand, "left")
+            self.assertEqual(result.notes[2].display_finger, "-5")
 
     def test_tool_writes_html_by_default_without_midi(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -43,6 +44,8 @@ class PigVisualizerTest(unittest.TestCase):
             self.assertIn("PIG Piano Roll", html)
             self.assertIn('id="labels-container"', html)
             self.assertIn("pianoRollContainer.scrollTop", html)
+            self.assertIn("Positive = right hand", html)
+            self.assertIn("Negative = left hand", html)
 
 
     def test_midi_writer_uses_internal_seconds_mapping(self) -> None:

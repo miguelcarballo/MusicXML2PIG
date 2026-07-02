@@ -236,7 +236,7 @@ This writes:
 pig_visualizations/001-1_fingering.html
 ```
 
-Add `--midi` when you also want a playable MIDI file for quick listening checks. The HTML file keeps the piano-roll style from the local `piano_roll` templates and shows note timing, pitch, hand, and fingering labels, including substitutions like `4_1`.
+Add `--midi` when you also want a playable MIDI file for quick listening checks. The HTML file keeps the piano-roll style from the local `piano_roll` templates and shows note timing, pitch, hand, and fingering labels. Right-hand labels stay positive, such as `4` or `4_1`, while left-hand labels preserve the PIG minus signs, such as `-4` or `-4_-1`. Finger colors are shared between hands, so `4` and `-4` use the same color while the sign identifies the hand.
 
 
 ## Project Layout

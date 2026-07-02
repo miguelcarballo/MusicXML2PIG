@@ -58,7 +58,7 @@ class PigNote:
 
         if self.finger_label == "0":
             return None
-        return "_".join(str(abs(int(finger))) for finger in self.finger_label.split("_"))
+        return self.finger_label
 
     @property
     def primary_finger(self) -> int | None:

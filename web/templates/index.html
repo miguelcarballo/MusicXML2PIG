@@ -21,6 +21,7 @@
     <div class="format-copy">
         <p>This version writes the eight-column PIG fingering format:</p>
         <code>note_id onset_time offset_time spelled_pitch onset_velocity offset_velocity channel finger_number</code>
+        <p>Right-hand finger numbers are positive and left-hand finger numbers are negative. The piano-roll verifier preserves these signs so the hand remains visible alongside the finger color.</p>
         <p>The velocity columns are required by the format. MuseScore MusicXML usually does not include real per-note performance velocities, so this tool uses neutral defaults unless better data is available later.</p>
         <p class="reference-link">Reference: <a href="https://beam.kisarazu.ac.jp/~saito/research/PianoFingeringDataset/" target="_blank" rel="noopener noreferrer">PIG Dataset website</a></p>
     </div>
